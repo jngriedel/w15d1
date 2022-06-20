@@ -1,21 +1,21 @@
 import React, { useRef } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import {useEffect, useState} from 'react'
+import TransitionItem from './TransitionItem';
+
+
+
 function AutoComplete ({names}) {
  const [inputVal, setInputVal] = useState('')
  const [showList, setShowList] = useState(false)
 
-  const inputRef = useRef();
+ const inputRef = useRef();
 
 
   useEffect(()=> {
     if (showList) {
       document.addEventListener('click', handleOutsideClick);
-    } else {
-      console.log("Removing Autocomplete listener on update!");
-      document.removeEventListener('click', handleOutsideClick);
     }
-
     return () => {
       console.log("Cleaning up event listener from Autocomplete!");
       document.removeEventListener('click', handleOutsideClick);
@@ -23,16 +23,16 @@ function AutoComplete ({names}) {
   },[showList])
 
 
-
+  const selectName = ({ target:  { innerText: name }}) => {
+    setInputVal(name);
+    setShowList(false)
+  }
 
   const handleInput = (e) => {
     setInputVal( e.target.value );
   }
 
-  const selectName = ({ target:  { innerText: name }}) => {
-    setInputVal(name);
-    setShowList(false)
-  }
+
 
   // Set focus to input field if user clicks anywhere inside the Autocomplete
   // section (unless they have selected a name from the dropdown list)
@@ -70,18 +70,9 @@ function AutoComplete ({names}) {
 
 
     const results = matches().map((result) => {
-      const nodeRef = React.createRef();
+
       return (
-        <CSSTransition
-          nodeRef={nodeRef}
-          key={result}
-          classNames="result"
-          timeout={{ enter: 500, exit: 300 }}
-        >
-          <li ref={nodeRef} className="nameLi" onClick={selectName}>
-            {result}
-          </li>
-        </CSSTransition>
+       <TransitionItem result={result} selectName={selectName} />
       )
     });
 
