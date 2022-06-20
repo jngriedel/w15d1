@@ -1,9 +1,9 @@
-import React from 'react';
+// import React from 'react';
 import Clock, { ClockToggle } from './components/Clock';
 import Folder from './components/Folder';
 import Weather from './components/Weather';
 import AutoComplete from './components/Auto';
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 
 const names = [
   'Abba',
@@ -23,10 +23,11 @@ const folders = [
 ];
 
 function App() {
+
 const [showClock, setShowClock] = useState(true)
 
 
-  toggleClock = () => setShowClock(!showClock);
+const  toggleClock = () => setShowClock(!showClock);
 
 
     return (
